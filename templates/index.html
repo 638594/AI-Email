@@ -8,18 +8,22 @@
     <h1>Enviar Texto para o Backend</h1>
     
     <form method="POST">
-        <textarea name="meu_texto" rows="4" cols="50" placeholder="Digite algo aqui...">{{ original if original }}</textarea>
-        <br>
-        <button type="submit">Enviar e Processar</button>
+        <textarea name="meu_texto" rows="4" cols="50">{{ original if original }}</textarea><br>
+        <button type="submit">Processar e Analisar</button>
     </form>
 
-    {% if resultado %}
-        <hr>
-        <h3>Texto Original:</h3>
-        <p>{{ original }}</p>
-
-        <h3>Texto Pré-processado (NLP):</h3>
-        <p style="color: blue; font-weight: bold;">{{ resultado }}</p>
+    {% if limpo %}
+        <div style="background: #eee; padding: 10px; margin-top: 10px; font-size: 0.9em;">
+            <strong>Texto enviado para a IA (pós-NLP):</strong><br>
+            <code>{{ limpo }}</code>
+        </div>
     {% endif %}
-</body>
+
+    {% if analise %}
+        <div style="background: #e8f4fd; padding: 15px; border-left: 5px solid #2196F3; margin-top: 20px;">
+            <h3>Resultado Gemini:</h3>
+            <p style="white-space: pre-wrap;">{{ analise }}</p>
+        </div>
+    {% endif %}
+    
 </html>
