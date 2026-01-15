@@ -1,18 +1,23 @@
 from flask import Flask, render_template, request
+from nlp_utils import preprocessador_texto
 
 app = Flask(__name__)
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
-    texto_recebido = None
+    resultado_nlp = None
+    texto_original = None
     
     if request.method == 'POST':
-        # 'meu_texto' é o atributo 'name' do input no HTML
-        texto_recebido = request.form.get('meu_texto')
-        print(f"Texto capturado: {texto_recebido}")
-        # Aqui você pode salvar no banco, processar com IA, etc.
+        texto_original = request.form.get('meu_texto')
+        
+        resultado_nlp = preprocessador_texto(texto_original)
+        
+        
+        print(f"Original: {texto_original}")
+        print(f"Processado: {resultado_nlp}")
 
-    return render_template('index.html', texto=texto_recebido)
+    return render_template('index.html', original=texto_original, resultado =resultado_nlp)
 
 if __name__ == '__main__':
     app.run(debug=True)

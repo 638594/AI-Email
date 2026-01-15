@@ -8,14 +8,18 @@
     <h1>Enviar Texto para o Backend</h1>
     
     <form method="POST">
-        <textarea name="meu_texto" rows="4" cols="50" placeholder="Digite algo aqui..."></textarea>
+        <textarea name="meu_texto" rows="4" cols="50" placeholder="Digite algo aqui...">{{ original if original }}</textarea>
         <br>
-        <button type="submit">Enviar</button>
+        <button type="submit">Enviar e Processar</button>
     </form>
 
-    {% if texto %}
-        <h3>O backend recebeu:</h3>
-        <p>{{ texto }}</p>
+    {% if resultado %}
+        <hr>
+        <h3>Texto Original:</h3>
+        <p>{{ original }}</p>
+
+        <h3>Texto Pré-processado (NLP):</h3>
+        <p style="color: blue; font-weight: bold;">{{ resultado }}</p>
     {% endif %}
 </body>
 </html>
