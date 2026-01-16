@@ -27,7 +27,13 @@ def analisar_com_gemini(texto_limpo):
     
     prompt = f"""
     Com base nos radicais de palavras abaixo, siga estas regras:
+    
     1. Classifique como 'Produtivo' ou 'Improdutivo'.
+    Produtivo: Emails que requerem uma ação ou resposta específica 
+    (ex.: solicitações de suporte técnico, atualização sobre casos em aberto, 
+    dúvidas sobre o sistema).
+    Improdutivo: Emails que não necessitam de uma ação imediata
+    (ex.: mensagens de felicitações, agradecimentos).
     2. Não dê justificativas.
     3. Escreva uma 'Sugestão de Resposta' curta e profissional.
 
