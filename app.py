@@ -1,4 +1,5 @@
 import os
+from PyPDF2 import PdfReader  
 import google.generativeai as genai
 from dotenv import load_dotenv
 from flask import Flask, render_template, request
@@ -16,12 +17,12 @@ model = genai.GenerativeModel('gemini-3-flash-preview')
 
 def analisar_com_gemini(texto_limpo):
     # Configuração para ignorar bloqueios de segurança bobos durante o teste
-    safety_settings = {
-        HarmCategory.HARM_CATEGORY_HARASSMENT: HarmBlockThreshold.BLOCK_NONE,
-        HarmCategory.HARM_CATEGORY_HATE_SPEECH: HarmBlockThreshold.BLOCK_NONE,
-        HarmCategory.HARM_CATEGORY_SEXUALLY_EXPLICIT: HarmBlockThreshold.BLOCK_NONE,
-        HarmCategory.HARM_CATEGORY_DANGEROUS_CONTENT: HarmBlockThreshold.BLOCK_NONE,
-    }
+    # safety_settings = {
+    #     HarmCategory.HARM_CATEGORY_HARASSMENT: HarmBlockThreshold.BLOCK_NONE,
+    #     HarmCategory.HARM_CATEGORY_HATE_SPEECH: HarmBlockThreshold.BLOCK_NONE,
+    #     HarmCategory.HARM_CATEGORY_SEXUALLY_EXPLICIT: HarmBlockThreshold.BLOCK_NONE,
+    #     HarmCategory.HARM_CATEGORY_DANGEROUS_CONTENT: HarmBlockThreshold.BLOCK_NONE,
+    # }
 
     model = genai.GenerativeModel('gemini-3-flash-preview')
     
@@ -47,8 +48,8 @@ def analisar_com_gemini(texto_limpo):
     try:
         # Passamos as configurações de segurança aqui
         response = model.generate_content(
-            prompt,
-            safety_settings=safety_settings
+            prompt
+           # safety_settings=safety_settings
         )
         
         # Verificamos se a resposta tem conteúdo antes de acessar .text
@@ -59,26 +60,42 @@ def analisar_com_gemini(texto_limpo):
             
     except Exception as e:
         return f"Erro: {str(e)}"
+
+
+
+def extrair_texto_arquivo(arquivo):
+    nome_arquivo = arquivo.filename.lower()
+    conteudo = ""
+    
+    
+    if nome_arquivo.endswith(".txt"):
+        conteudo = arquivo.read().decode('utf-8')
         
+    elif nome_arquivo.endswith(".pdf"):
+        pdf_reader = PdfReader(arquivo)
+        for pagina in pdf_reader.pages:
+            conteudo += pagina.extract_text()
+    
+    return conteudo
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
     texto_limpo = None
-    texto_original = None
+    texto_original = ""
     analise_ia = None
     
     if request.method == 'POST':
-        texto_original = request.form.get('meu_texto')
         
-        if texto_original:
-        
-            texto_limpo = preprocessador_texto(texto_original)
+        if 'arquivo' in request.files and request.files['arquivo'].filename != '':
+            arquivo = request.files['arquivo']
+            texto_original = extrair_texto_arquivo(arquivo)
+        else:
             
-            analise_ia= analisar_com_gemini(texto_limpo)
-        
-        
-        # print(f"Original: {texto_original}")
-        # print(f"Processado: {resultado_nlp}")
+            texto_original = request.form.get('meu_texto')
+            
+        if texto_original:
+            texto_limpo = preprocessador_texto(texto_original)
+            analise_ia = analisar_com_gemini(texto_limpo)
 
     return render_template('index.html',
                            original=texto_original,

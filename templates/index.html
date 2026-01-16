@@ -7,9 +7,16 @@
 <body>
     <h1>Enviar Texto para o Backend</h1>
     
-    <form method="POST">
-        <textarea name="meu_texto" rows="4" cols="50">{{ original if original }}</textarea><br>
-        <button type="submit">Processar e Analisar</button>
+    <form method="POST" enctype="multipart/form-data">
+        <h3>Cole o texto:</h3>
+        <textarea name="meu_texto" rows="4" cols="50">{{ original if original }}</textarea>
+        
+        <hr>
+        <h3>Ou envie um arquivo (.txt ou .pdf):</h3>
+        <input type="file" name="arquivo" accept=".txt, .pdf">
+        
+        <br><br>
+        <button type="submit">Processar Tudo</button>
     </form>
 
     {% if limpo %}
@@ -25,5 +32,5 @@
             <p style="white-space: pre-wrap;">{{ analise }}</p>
         </div>
     {% endif %}
-    
+
 </html>
