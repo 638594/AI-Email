@@ -2,11 +2,14 @@
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
-    <title>Captura de Texto</title>
+    <title>AI Email Analyzer</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
 </head>
 <body>
-    <h1>Enviar Texto para o Backend</h1>
-    
+    <h1>Analisador Inteligente</h1>
+    <div class="container">
+
     <form method="POST" enctype="multipart/form-data">
         <h3>Cole o texto:</h3>
         <textarea name="meu_texto" rows="4" cols="50">{{ original if original }}</textarea>
@@ -16,21 +19,18 @@
         <input type="file" name="arquivo" accept=".txt, .pdf">
         
         <br><br>
-        <button type="submit">Processar Tudo</button>
+        <button type="submit">Processar Texto</button>
     </form>
 
-    <!-- {% if limpo %}
-        <div style="background: #eee; padding: 10px; margin-top: 10px; font-size: 0.9em;">
-            <strong>Texto enviado para a IA (pós-NLP):</strong><br>
-            <code>{{ limpo }}</code>
-        </div>
-    {% endif %} -->
 
     {% if analise %}
-        <div style="background: #e8f4fd; padding: 15px; border-left: 5px solid #2196F3; margin-top: 20px;">
+        <div class = "resultado">
             <h3>Resultado Gemini:</h3>
-            <p style="white-space: pre-wrap;">{{ analise }}</p>
+            <p>{{ analise }}</p>
         </div>
     {% endif %}
+
+    </div>
+   
 
 </html>
