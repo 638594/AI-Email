@@ -4,7 +4,10 @@ from nltk.corpus import stopwords
 from nltk.tokenize import word_tokenize
 from nltk.stem import RSLPStemmer
 
-
+nltk.download('punkt')
+nltk.download('punkt_tab')
+nltk.download('stopwords')
+nltk.download('rslp')
 
 def preprocessador_texto(texto):
     if not texto:
