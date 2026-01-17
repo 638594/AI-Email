@@ -27,7 +27,7 @@ def analisar_com_gemini(texto_limpo):
     Texto processado: {texto_limpo}
 
     Formato de resposta desejado:
-    Classificação: [Sua classificação]
+    Classificação: [Sua classificação]\n 
     Sugestão: [Sua sugestão]
     """
     
