@@ -3,6 +3,7 @@ from flask import Flask, render_template, request
 from nlp_utils import preprocessador_texto
 from AI_analyzer import analisar_com_gemini
 from textFIleExtractor import extrair_texto_arquivo
+import os
 
 app = Flask(__name__)
 
@@ -34,4 +35,5 @@ def index():
                            )
 
 if __name__ == '__main__':
-    app.run()
+    port = int(os.environ.get("PORT", 5000))
+    app.run(host="0.0.0.0", port=port)
